@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>镜像使用说明</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .content {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 800px; /* 调整后的宽度 */
+            width: 100%;
+            font-size: 16px; /* 放大字体 */
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace; /* 保持代码块的字体 */
+        }
+
+        .footer {
+            background: #444;
+            color: white;
+            text-align: center;
+            padding: 5px 0; /* 调低高度 */
+        }
+
+        .footer a {
+            color: #4caf50;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .content {
+                padding: 10px;
+                font-size: 14px; /* 在小屏幕上稍微减小字体 */
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>镜像使用说明</h1>
+</div>
+<div class="container">
+    <div class="content">
+        <p>要设置加速镜像服务，你可以执行下面命令：</p>
+        <div class="code-block">
+        <pre>
+sudo tee /etc/docker/daemon.json &lt;&lt;EOF
+{
+	"registry-mirrors": ["https://{{host}}"]
+}
+EOF
+        </pre>
+        </div>
+        <p>如果执行了上述命令，配置了镜像加速服务，可以直接 pull 镜像：</p>
+        <div class="code-block">
+        <pre>
+docker pull halohub/halo:latest # 拉取 halo 镜像
+        </pre>
+        </div>
+        <p>因为Workers用量有限，在使用加速镜像服务时，你可以手动 pull 镜像然后 re-tag 之后 push 至本地镜像仓库:</p>
+        <div class="code-block">
+        <pre>
+docker pull {{host}}/halohub/halo:latest # 拉取 halo 镜像
+        </pre>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <p>Powered by Cloudflare Workers</p>
+    <p><a href="{{host}}">{{host}}</a></p>
+</div>
+</body>
+</html>
